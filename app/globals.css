@@ -1,0 +1,171 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* Шрифты */
+  --font-display: var(--font-tektur), 'Tektur', sans-serif;
+  --font-sans: var(--font-wix), 'Wix Madefor Text', system-ui, sans-serif;
+  --font-mono: var(--font-martian), 'Martian Mono', ui-monospace, monospace;
+
+  /* СПЕКТР — палитра бренда (прямые значения) */
+  --color-silver: #e9ebee;
+  --color-glass: #ffffff;
+  --color-graphite: #0e1116;
+  --color-electric: #2333e0;
+  --color-electric-600: #1b28b8;
+  --color-cyan: #39d5e8;
+  --color-darkness: #0b0d12;
+
+  /* Семантические токены shadcn */
+  --color-background: #e9ebee;
+  --color-foreground: #0e1116;
+  --color-card: #ffffff;
+  --color-card-foreground: #0e1116;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #0e1116;
+  --color-primary: #2333e0;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #ffffff;
+  --color-secondary-foreground: #0e1116;
+  --color-muted: #dfe2e7;
+  --color-muted-foreground: #5b636e;
+  --color-accent: #39d5e8;
+  --color-accent-foreground: #0b0d12;
+  --color-destructive: #d92d20;
+  --color-border: #d3d7de;
+  --color-input: #d3d7de;
+  --color-ring: #2333e0;
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.1875rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+}
+
+:root {
+  color-scheme: light;
+  --radius: 0.25rem;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: 'ss01', 'cv01';
+  }
+  ::selection {
+    background: var(--color-electric);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* тонкая техно-сетка на фоне (оптическая координатная плоскость) */
+  .grid-optic {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, var(--color-graphite) 6%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, var(--color-graphite) 6%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+  .grid-optic-dark {
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, #fff 6%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, #fff 6%, transparent) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  /* стекло-панель, дозированно (стекло 2026 — не «на всём») */
+  .glass {
+    background: color-mix(in srgb, #ffffff 70%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid color-mix(in srgb, #ffffff 60%, transparent);
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.6) inset, 0 24px 60px -30px rgba(14, 17, 22, 0.35);
+  }
+  .glass-dark {
+    background: color-mix(in srgb, #ffffff 5%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid color-mix(in srgb, #ffffff 12%, transparent);
+  }
+
+  /* хроматическая дисперсия 2px на hover */
+  .chroma {
+    transition: text-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .chroma:hover {
+    text-shadow: -2px 0 0 color-mix(in srgb, var(--color-cyan) 85%, transparent),
+      2px 0 0 color-mix(in srgb, var(--color-electric) 85%, transparent);
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+}
+
+/* луч сканирует секции при скролле */
+@keyframes beam-drift {
+  0% {
+    transform: translateY(-8%);
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(8%);
+    opacity: 0.35;
+  }
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -200;
+  }
+}
+
+@keyframes pulse-core {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  [data-beam],
+  [data-flow] {
+    animation: none !important;
+  }
+}
